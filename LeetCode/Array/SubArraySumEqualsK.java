@@ -1,19 +1,14 @@
-int m = A.length, n = A[0].length;
-        for (int i = 0; i < m; i++)
-            for (int j = 1; j < n; j++)
-                A[i][j] += A[i][j - 1];
-        int res = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = i; j < n; j++) {
-                Map<Integer, Integer> counter = new HashMap<>();
-                counter.put(0, 1);
-                int cur = 0;
-                for (int k = 0; k < m; k++) {
-                    cur += A[k][j] - (i > 0 ? A[k][i - 1] : 0);
-                    res += counter.getOrDefault(cur - target, 0);
-                    counter.put(cur, counter.getOrDefault(cur, 0) + 1);
-                }
-            }
+public class Solution {
+    public int subarraySum(int[] nums, int k) {
+        int count = 0, sum = 0;
+        HashMap < Integer, Integer > map = new HashMap < > ();
+        map.put(0, 1);
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+            if (map.containsKey(sum - k))
+                count += map.get(sum - k);
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
         }
-        return res;
- 
+        return count;
+    }
+}
